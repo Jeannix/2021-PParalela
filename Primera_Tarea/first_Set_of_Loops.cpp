@@ -2,7 +2,7 @@
 #include <cmath>
 #include <chrono>
 #include <iomanip>
-#define MAX 100 // Aruebas con 10 / 100 / 1000 -> 100 elem / 10000 elem / 1M elem	
+#define MAX 10000 // Pruebas con 10 / 100 / 1000 -> 100 elem / 10000 elem / 1M elem	
 using namespace std::chrono;
 using namespace std;
 
