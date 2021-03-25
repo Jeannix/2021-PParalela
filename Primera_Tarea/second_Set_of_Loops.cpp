@@ -1,18 +1,21 @@
 #include <iostream>
-#include <cstdlib>
 #include <cmath>
-#define MAX 10 // Aruebas con 10 / 100 / 1000 -> 100 elem / 10000 elem / 1M elem	
+#include <chrono>
+#include <iomanip>
+#define MAX 10000 // Aruebas con 10 / 100 / 1000 -> 100 elem / 10000 elem / 1M elem	
+using namespace std::chrono;
 using namespace std;
-double y[MAX]={0};
-double x[MAX];
-double** A;
 
-void Mat_r_MEM(){
+double y[MAX]={0};	// Y initialization
+double x[MAX];	// X Declaration
+double** A;		// Matrix A Declaration
+
+void Mat_r_MEM(){	// Matrix Reserve Memory
 	A = new double*[MAX];
 	for (int i = 0; i < MAX; ++i)
 		A[i] = new double[MAX];
 }
-void Mat_f_MEM(){
+void Mat_f_MEM(){	//Matrix Fill Memory
 	for (int i=0; i<MAX; ++i){
 		for (int j=0; j<MAX; ++j){
 			int temp=rand() % 10000;
@@ -20,13 +23,13 @@ void Mat_f_MEM(){
 		}
 	}
 }
-void Arr_f_MEM(){
+void Arr_f_MEM(){ // Array Fill Memory
 	for (int i=0; i<MAX; ++i){
 		int temp=rand() % 10000;
 		x[i]=temp;
 	}
 }
-void Mat_p(){
+void Mat_p(){ // Matrix Print
 	for (int i=0; i<MAX; ++i){
 		for (int j=0; j<MAX; ++j){
 			cout<<A[i][j]<<" ";
@@ -34,35 +37,42 @@ void Mat_p(){
 		cout<<endl;
 	}
 }
-void Arr_p_y(){
+void Arr_p_y(){ // Array Y Print 
 	for(int i=0;i<MAX;i++){
 		cout<<y[i];
 	}
 	cout<<endl;
 }
-void Arr_p_x(){
+void Arr_p_x(){	// Array X Print 
 	for(int i=0;i<MAX;i++){
 		cout<<x[i]<<" ";
 	}
 	cout<<endl;
 }
-void Mat_c_MEM(){
+void Mat_c_MEM(){  // Matrix Clean Memory
 	for (int i=0; i<MAX; ++i){
 		delete [] A[i];
 		delete [] A;
 	}
 }
-int main(int argc, char *argv[]){
+int main(){
 	Mat_r_MEM();
 	Mat_f_MEM();
 	Arr_f_MEM();
 	//Mat_p();
 	//cout<<endl;
+	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+	start = std::chrono::high_resolution_clock::now();
 	for(int j=0; j<MAX; j++){
 		for(int i=0; i<MAX; i++){
 			y[i] += A[i][j] * x[j];
 		}
 	}
+	end = std::chrono::high_resolution_clock::now();
+	int64_t duration =
+		std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+		.count();
+	std::cout << std::setw(10) << duration << std::setw(30);
 	//Arr_p_y();
 	//Arr_p_x();
 	Mat_c_MEM();
